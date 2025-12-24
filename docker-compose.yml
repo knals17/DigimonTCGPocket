@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: digimon-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: digimon
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme123}
+      POSTGRES_DB: digimon_tcg
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - digimon-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U digimon"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: digimon-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://digimon:${DB_PASSWORD:-changeme123}@postgres:5432/digimon_tcg
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key-change-this-in-production}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - digimon-network
+    command: sh -c "npx prisma migrate deploy && npx prisma db seed && node server/index.js"
+
+volumes:
+  postgres_data:
+
+networks:
+  digimon-network:
+    driver: bridge

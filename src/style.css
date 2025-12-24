@@ -1,0 +1,333 @@
+:root {
+  --primary-bg: #0f0c29;
+  --secondary-bg: #302b63;
+  --accent: #00d2ff;
+  --accent-secondary: #3a7bd5;
+  --text-main: #ffffff;
+  --text-muted: #ccc;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --card-radius: 12px;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: linear-gradient(to right, var(--primary-bg), var(--secondary-bg), #24243e);
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-bottom: 80px;
+  /* Space for Bottom Nav */
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Auth Form */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.auth-box {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  padding: 2rem;
+  border-radius: var(--card-radius);
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  color: white;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+button {
+  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+  border: none;
+  padding: 12px 24px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Dashboard */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.user-info {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Pack Opening */
+.pack-carousel {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 20px 0;
+  scroll-snap-type: x mandatory;
+}
+
+.pack-item {
+  flex: 0 0 220px;
+  height: 400px;
+  background: linear-gradient(135deg, #FFD700, #DAA520);
+  border-radius: 15px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  scroll-snap-align: center;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+}
+
+.pack-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 30px var(--accent);
+}
+
+/* Animation for Pack Opening */
+.pack-opening-scene {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.revealed-cards {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  width: 100%;
+  padding: 20px;
+  justify-content: center;
+}
+
+.card-reveal {
+  width: 150px;
+  aspect-ratio: 2.5/3.5;
+  background: #222;
+  border-radius: 10px;
+  animation: flipIn 0.5s ease forwards;
+  opacity: 0;
+  border: 1px solid var(--accent);
+  background-size: cover;
+  background-position: center;
+}
+
+@keyframes flipIn {
+  from {
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+
+  to {
+    transform: rotateY(0);
+    opacity: 1;
+  }
+}
+
+/* Collection Grid */
+.collection-stats {
+  background: var(--glass-bg);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 12px;
+}
+
+.card-item {
+  aspect-ratio: 2.5/3.5;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  position: relative;
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  transition: transform 0.2s;
+  overflow: hidden;
+}
+
+.card-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-item.missing {
+  filter: grayscale(100%) brightness(0.5);
+}
+
+.card-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+/* Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: rgba(15, 12, 41, 0.95);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid var(--glass-border);
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.nav-item {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  transition: color 0.3s;
+}
+
+.nav-item svg {
+  margin-bottom: 4px;
+  width: 24px;
+  height: 24px;
+}
+
+.nav-item.active {
+  color: var(--accent);
+}
+
+.nav-item.active svg {
+  fill: var(--accent);
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Loading */
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-left-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
